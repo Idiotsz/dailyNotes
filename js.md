@@ -1,9 +1,10 @@
 [toc]
-# 柯里化
+# 柯里化 curry
 - 如果传入参数大于等于原先函数的形参，返回原函数执行结果
 - 如果传入参数小于原函数形参，返回一个函数，等待下次调用，该函数保存之前调用入参，直至传入满足原函数形参要求的参数才立刻执行，并返回原函数执行结果
 - 因为参数不满足之前返回的是函数，所以可以连续掉用
 > 逆推函数实现起来很简单，重要的是实现思路，适应的场景。
+> lodash _.curry
 ```js
 // 柯里化函数
 
@@ -27,4 +28,24 @@ var testCurry = curry(test);
 
 var temp = testCurry(1)(2);
 let result = temp(4);
+```
+
+# 偏函数 partial
+- 固定函数的一部分入参，返回新的函数，新函数接受剩下参数
+- 与柯里化类比，类似却不同
+- lodash.partial
+```js
+function partial (fn,...argu) {
+	return function (...partialArgu) {
+		return fn.apply(this, argu.concat(partialArgu))
+	}
+}
+
+function test(a,b,c) {
+	return a+b+c;
+}
+
+let partialTest = partial(test, 1,2)
+
+console.log(partialTest(3))
 ```
